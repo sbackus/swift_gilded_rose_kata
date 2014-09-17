@@ -1,31 +1,32 @@
-require 'rspec/given'
-require 'gilded_rose'
 
-describe "#update_quality" do
+import GildedRose
+import XCTest
+
+describe "#updateQuality" do
 
   context "with a single" do
-    Given(:initial_sell_in) { 5 }
+    Given(:initial_sellIn) { 5 }
     Given(:initial_quality) { 10 }
-    Given(:item) { Item.new(name, initial_sell_in, initial_quality) }
+    Given(:item) { Item.new(name, initial_sellIn, initial_quality) }
 
-    When { update_quality([item]) }
+    When { updateQuality([item]) }
 
     context "normal item" do
       Given(:name) { "NORMAL ITEM" }
 
-      Invariant { item.sell_in.should == initial_sell_in-1 }
+      Invariant { item.sellIn.should == initial_sellIn-1 }
 
       context "before sell date" do
         Then { item.quality.should == initial_quality-1 }
       end
 
       context "on sell date" do
-        Given(:initial_sell_in) { 0 }
+        Given(:initial_sellIn) { 0 }
         Then { item.quality.should == initial_quality-2 }
       end
 
       context "after sell date" do
-        Given(:initial_sell_in) { -10 }
+        Given(:initial_sellIn) { -10 }
         Then { item.quality.should == initial_quality-2 }
       end
 
@@ -38,7 +39,7 @@ describe "#update_quality" do
     context "Aged Brie" do
       Given(:name) { "Aged Brie" }
 
-      Invariant { item.sell_in.should == initial_sell_in-1 }
+      Invariant { item.sellIn.should == initial_sellIn-1 }
 
       context "before sell date" do
         Then { item.quality.should == initial_quality+1 }
@@ -50,7 +51,7 @@ describe "#update_quality" do
       end
 
       context "on sell date" do
-        Given(:initial_sell_in) { 0 }
+        Given(:initial_sellIn) { 0 }
         Then { item.quality.should == initial_quality+2 }
 
         context "near max quality" do
@@ -65,7 +66,7 @@ describe "#update_quality" do
       end
 
       context "after sell date" do
-        Given(:initial_sell_in) { -10 }
+        Given(:initial_sellIn) { -10 }
         Then { item.quality.should == initial_quality+2 }
 
         context "with max quality" do
@@ -79,19 +80,19 @@ describe "#update_quality" do
       Given(:initial_quality) { 80 }
       Given(:name) { "Sulfuras, Hand of Ragnaros" }
 
-      Invariant { item.sell_in.should == initial_sell_in }
+      Invariant { item.sellIn.should == initial_sellIn }
 
       context "before sell date" do
         Then { item.quality.should == initial_quality }
       end
 
       context "on sell date" do
-        Given(:initial_sell_in) { 0 }
+        Given(:initial_sellIn) { 0 }
         Then { item.quality.should == initial_quality }
       end
 
       context "after sell date" do
-        Given(:initial_sell_in) { -10 }
+        Given(:initial_sellIn) { -10 }
         Then { item.quality.should == initial_quality }
       end
     end
@@ -99,10 +100,10 @@ describe "#update_quality" do
     context "Backstage pass" do
       Given(:name) { "Backstage passes to a TAFKAL80ETC concert" }
 
-      Invariant { item.sell_in.should == initial_sell_in-1 }
+      Invariant { item.sellIn.should == initial_sellIn-1 }
 
       context "long before sell date" do
-        Given(:initial_sell_in) { 11 }
+        Given(:initial_sellIn) { 11 }
         Then { item.quality.should == initial_quality+1 }
 
         context "at max quality" do
@@ -111,7 +112,7 @@ describe "#update_quality" do
       end
 
       context "medium close to sell date (upper bound)" do
-        Given(:initial_sell_in) { 10 }
+        Given(:initial_sellIn) { 10 }
         Then { item.quality.should == initial_quality+2 }
 
         context "at max quality" do
@@ -121,7 +122,7 @@ describe "#update_quality" do
       end
 
       context "medium close to sell date (lower bound)" do
-        Given(:initial_sell_in) { 6 }
+        Given(:initial_sellIn) { 6 }
         Then { item.quality.should == initial_quality+2 }
 
         context "at max quality" do
@@ -131,7 +132,7 @@ describe "#update_quality" do
       end
 
       context "very close to sell date (upper bound)" do
-        Given(:initial_sell_in) { 5 }
+        Given(:initial_sellIn) { 5 }
         Then { item.quality.should == initial_quality+3 }
 
         context "at max quality" do
@@ -141,7 +142,7 @@ describe "#update_quality" do
       end
 
       context "very close to sell date (lower bound)" do
-        Given(:initial_sell_in) { 1 }
+        Given(:initial_sellIn) { 1 }
         Then { item.quality.should == initial_quality+3 }
 
         context "at max quality" do
@@ -151,12 +152,12 @@ describe "#update_quality" do
       end
 
       context "on sell date" do
-        Given(:initial_sell_in) { 0 }
+        Given(:initial_sellIn) { 0 }
         Then { item.quality.should == 0 }
       end
 
       context "after sell date" do
-        Given(:initial_sell_in) { -10 }
+        Given(:initial_sellIn) { -10 }
         Then { item.quality.should == 0 }
       end
     end
@@ -165,10 +166,10 @@ describe "#update_quality" do
       before { pending }
       Given(:name) { "Conjured Mana Cake" }
 
-      Invariant { item.sell_in.should == initial_sell_in-1 }
+      Invariant { item.sellIn.should == initial_sellIn-1 }
 
       context "before the sell date" do
-        Given(:initial_sell_in) { 5 }
+        Given(:initial_sellIn) { 5 }
         Then { item.quality.should == initial_quality-2 }
 
         context "at zero quality" do
@@ -178,7 +179,7 @@ describe "#update_quality" do
       end
 
       context "on sell date" do
-        Given(:initial_sell_in) { 0 }
+        Given(:initial_sellIn) { 0 }
         Then { item.quality.should == initial_quality-4 }
 
         context "at zero quality" do
@@ -188,7 +189,7 @@ describe "#update_quality" do
       end
 
       context "after sell date" do
-        Given(:initial_sell_in) { -10 }
+        Given(:initial_sellIn) { -10 }
         Then { item.quality.should == initial_quality-4 }
 
         context "at zero quality" do
@@ -207,12 +208,12 @@ describe "#update_quality" do
       ]
     }
 
-    When { update_quality(items) }
+    When { updateQuality(items) }
 
     Then { items[0].quality.should == 9 }
-    Then { items[0].sell_in.should == 4 }
+    Then { items[0].sellIn.should == 4 }
 
     Then { items[1].quality.should == 11 }
-    Then { items[1].sell_in.should == 2 }
+    Then { items[1].sellIn.should == 2 }
   end
 end
